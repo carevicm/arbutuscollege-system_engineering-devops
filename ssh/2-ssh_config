@@ -1,0 +1,4 @@
+# holberton server config options
+Host Milan
+    IdentityFile ~/.ssh/school
+    Protocol 2
