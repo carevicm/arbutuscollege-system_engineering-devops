@@ -1,27 +1,13 @@
 #!/usr/bin/env bash
-# Script that sets up an Nginx web server on our server + redirection.
+# Script that setup a nginx web server on our server + redirection.
 
 apt update -y && apt upgrade -y
 apt install nginx -y
 
 # Index page
-echo 'Holberton School' | tee /var/www/html/index.html
+echo "Holberton School" >/var/www/html/index.nginx-debian.html
 
-# Configure redirection
-cat <<EOF > /etc/nginx/sites-available/default
-server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-    root /var/www/html;
-    index index.html index.htm;
-    server_name _;
-    location / {
-        try_files \$uri \$uri/ =404;
-    }
-    location = /redirect_me {
-        return 301 https://www.youtube.com/watch?v=dQw4w9WgXcQ;
-    }
-}
-EOF
+# Redirect to fabulous Rick Astley page
+sed -i '/listen \[::\]:80 default_server;/a\        rewrite ^\/redirect_me https://www.youtube.com/watch?v=dQw4w9WgXcQ permanent;' /etc/nginx/sites-available/default
 
 service nginx restart
