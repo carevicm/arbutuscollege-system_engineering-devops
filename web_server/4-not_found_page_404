@@ -1,17 +1,14 @@
 #!/usr/bin/env bash
-# Script that setup a nginx web server on our server + redirection + 404.
+# Set up custom 404 error
 
-apt update -y && apt upgrade -y
-apt install nginx -y
-
-# Index page
-echo "Holberton School" >/var/www/html/index.nginx-debian.html
-
-# Redirect to fabulous Rick Astley page
-sed -i '/listen \[::\]:80 default_server;/a\        rewrite ^\/redirect_me https://www.youtube.com/watch?v=dQw4w9WgXcQ permanent;' /etc/nginx/sites-available/default
-
-# 404 Page not Found
-echo "Ceci n'est pas une page" >/var/www/html/404.html
-sed -i '/dQw4w9WgXcQ permanent;$/a\        error_page 404 /404.html;' /etc/nginx/sites-available/default
-
+redirect="root /var/www/html;\n\n\tlocation /redirect_me {\n\t\treturn\t301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n\t}\n\n"
+errorpage="root /var/www/html;\n\n\terror_page 404 /404.html;\n\n"
+apt-get -y update
+apt-get -y install nginx
+echo "Holberton School" > /var/www/html/index.nginx-debian.html
+touch /var/www/html/404.html
+echo -e "Ceci n'est pas une page" > /var/www/html/404.html
+sed -i "s,root \/var\/www\/html;,$redirect," /etc/nginx/sites-enabled/default
+sed -i "s,root \/var\/www\/html;,$errorpage," /etc/nginx/sites-enabled/default
+service nginx reload
 service nginx restart
