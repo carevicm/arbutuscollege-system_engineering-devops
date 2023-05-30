@@ -1,17 +1,12 @@
 #!/usr/bin/env bash
-# Script that setup a nginx web server on our server + redirection + 404.
+# Configure a new Nginx server so that /redirect_me is redirecting to another page.
 
-apt update -y && apt upgrade -y
-apt install nginx -y
-
-# Index page
-echo "Holberton School" >/var/www/html/index.nginx-debian.html
-
-# Redirect to fabulous Rick Astley page
-sed -i '/listen \[::\]:80 default_server;/a\        rewrite ^\/redirect_me https://www.youtube.com/watch?v=dQw4w9WgXcQ permanent;' /etc/nginx/sites-available/default
-
-# 404 Page not Found
-echo "Ceci n'est pas une page" >/var/www/html/404.html
-sed -i '/dQw4w9WgXcQ permanent;$/a\        error_page 404 /404.html;' /etc/nginx/sites-available/default
-
-service nginx restart
+sudo apt-get -y update
+sudo apt-get -y upgrade
+sudo apt-get -y install nginx
+sudo service nginx start
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
+new_string="\\\terror_page 404 /404.html;\n\tlocation = /404.html {\n\t\troot /var/www/html;\n\t\tinternal;\n\t}"
+sudo sed -i "20i $new_string" /etc/nginx/sites-available/default
+sudo service nginx restart
+sudo service nginx reload
