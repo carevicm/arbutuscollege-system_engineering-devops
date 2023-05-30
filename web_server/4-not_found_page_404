@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
-# Sets up a brand new nginx server with a redirect page.
-sudo apt-get update
-sudo apt-get install -y nginx
-sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
-echo -e "Ceci n'est pas une page\n" | sudo tee /usr/share/nginx/html/404.html
-sudo sed -i 's|#error_page 404 \/404.html|error_page 404 \/404.html|' /etc/nginx/sites-available/default
-sudo service nginx start 
+# Configures NGINX
+sudo apt-get update -y
+sudo apt-get install nginx -y
+echo "Holberton School" > /var/www/html/index.nginx-debian.html
+echo "Ceci n'est pas une page" > /usr/share/nginx/html/custom_404.html
+new_string="server_name _;\n\trewrite ^\/redirect_me google.com permanent;"
+nstr2="\n\terror_page 404 \/custom_404.html;\n\tlocation = \/custom_404.html {\n\t\troot \/usr\/share\/nginx\/html;\n\t\tinternal;\n\t}"
+sed -i "s/server_name _;/$new_string$nstr2/" /etc/nginx/sites-enabled/default
+service nginx start
