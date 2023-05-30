@@ -10,7 +10,7 @@
 #
 
 link="https://www.youtube.com/watch?v=QH2-TGUlwu4"
-new_conf="server_name _;\n\trewrite ^/redirect_me/$ $link permanent;"
+new_conf="server_name _;\n\trewrite ^/redirect_me$ $link permanent;"
 
 apt update
 apt install -y nginx
