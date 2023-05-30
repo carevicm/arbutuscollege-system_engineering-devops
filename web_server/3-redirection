@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
-# Install nginx on my web01 server
-# Configure nginx server so /redirect_me is redirecting to another page
-# Redirection must be a 301 moved permanently
-sudo apt-get -y install nginx
-sudo service nginx start
-sudo sed -i '37i\rewrite ^/redirect_me http://philipyoo.tech permanent;' /etc/nginx/sites-available/default
-sudo service nginx restart
+# Script that setup a nginx web server on our server + redirection.
+
+apt update -y && apt upgrade -y
+apt install nginx -y
+
+# Index page
+echo "Holberton School" >/var/www/html/index.nginx-debian.html
+
+# Redirect to fabulous Rick Astley page
+sed -i '/listen \[::\]:80 default_server;/a\        rewrite ^\/redirect_me https://www.youtube.com/watch?v=dQw4w9WgXcQ permanent;' /etc/nginx/sites-available/default
+
+service nginx restart
