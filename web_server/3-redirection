@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
-# Configure a new Nginx server so that /redirect_me is redirecting to another page.
-# The redirection must be a “301 Moved Permanently”
+# Script that setup a nginx web server on our server + redirection.
 
-sudo apt-get -y update
-sudo apt-get -y upgrade
-sudo apt-get -y install nginx
-sudo service nginx start
-new_string="\\\trewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;"
-sudo sed -i "19i $new_string" /etc/nginx/sites-available/default
-sudo service nginx restart
-sudo service nginx reload
+apt update -y && apt upgrade -y
+apt install nginx -y
+
+# Index page
+echo "Holberton School" >/var/www/html/index.nginx-debian.html
+
+# Redirect to fabulous Rick Astley page
+sed -i '/listen \[::\]:80 default_server;/a\        rewrite ^\/redirect_me https://www.youtube.com/watch?v=dQw4w9WgXcQ permanent;' /etc/nginx/sites-available/default
+
+service nginx restart
