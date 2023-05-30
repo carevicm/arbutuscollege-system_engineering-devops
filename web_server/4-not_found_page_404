@@ -1,14 +1,10 @@
 #!/usr/bin/env bash
-# Set up custom 404 error
-
-redirect="root /var/www/html;\n\n\tlocation /redirect_me {\n\t\treturn\t301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n\t}\n\n"
-errorpage="root /var/www/html;\n\n\terror_page 404 /404.html;\n\n"
-apt-get -y update
+# Configures a web server with nginx listening on port 80 and when queried on /redirect_me forwards to another webpage.
+apt-get update
 apt-get -y install nginx
+ufw allow 'Nginx HTTP'
 echo "Holberton School" > /var/www/html/index.nginx-debian.html
-touch /var/www/html/404.html
-echo -e "Ceci n\'est pas une page" > /var/www/html/404.html
-sed -i "s,root \/var\/www\/html;,$redirect," /etc/nginx/sites-enabled/default
-sed -i "s,root \/var\/www\/html;,$errorpage," /etc/nginx/sites-enabled/default
-service nginx reload
+echo "Ceci n'est pas une page" > /usr/share/nginx/html/custom_404.html
+sed -i '/listen 80 default_server/a rewrite ^/redirect_me https://juanfe9118.github.io/Bass-Love/ permanent;' /etc/nginx/sites-available/default
+sed -i '/listen 80 default_server/a error_page 404 /custom_404.html; location = /custom_404.html {root /usr/share/nginx/html;\n internal;}' /etc/nginx/sites-available/default
 service nginx restart
