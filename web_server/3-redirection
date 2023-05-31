@@ -11,3 +11,4 @@ echo "Holberton School" >/var/www/html/index.nginx-debian.html
 sudo sed -i '/listen \[::\]:80 default_server;/a\        rewrite ^\/redirect_me https://www.youtube.com/watch?v=bTQmoltO5Ow permanent;' /etc/nginx/sites-available/default
 
 service nginx restart
+sudo service nginx reload
