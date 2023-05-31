@@ -35,4 +35,7 @@ printf '%s\n' "server {
     }
 }" > /etc/nginx/sites-available/default
 
+# Set the hostname value in the Nginx configuration
+sed -i "s/\$hostname/$(hostname)/" /etc/nginx/sites-available/default
+
 service nginx restart
