@@ -20,7 +20,7 @@ echo "Ceci n'est pas une page" > /var/www/html/404.html
 printf '%s\n' "server {
     listen 80 default_server;
     listen [::]:80 default_server;
-    add_header X-Served-By \$HOSTNAME;
+    add_header X-Served-By \$hostname;
     root   /var/www/html;
     index  index.html index.htm;
 
@@ -29,9 +29,9 @@ printf '%s\n' "server {
     }
 
     error_page 404 /404.html;
-    location /404 {
-      root /var/www/html;
-      internal;
+    location = /404.html {
+        root /var/www/html;
+        internal;
     }
 }" > /etc/nginx/sites-available/default
 
