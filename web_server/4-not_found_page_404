@@ -1,24 +1,17 @@
 #!/usr/bin/env bash
+# Script that setup a nginx web server on our server + redirection + 404.
 
-# Configure Nginx server so that /redirect_me is redirecting to another page.
-sudo apt-get update
-sudo apt-get -y install nginx
+apt update -y && apt upgrade -y
+apt install nginx -y
 
-# Firewall port 80
-sudo ufw allow http
-
-
-sudo chgrp -R ubuntu /usr/share/nginx/html
-sudo chmod -R g+w /usr/share/nginx/html
-# Index
-# Ubuntu 14 /usr/share/nginx/html/index.html
-# ubuntu 16 /var/www/html/index.html
+# Index page
 echo "Holberton School" >/var/www/html/index.nginx-debian.html
-# Redirection
-sudo sed -i '/listen \[::\]:80 default_server;/a\        rewrite ^\/redirect_me(.*)$ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
 
-# Configure your Nginx server to have a custom 404 page that contains "ceci..."
-sudo echo "Ceci n'est pas une page" | sudo tee /usr/share/nginx/html/custom_404.html
-sed -i '/listen 80 default_server/a error_page 404 /custom_404.html; location = /custom_404.html {root /usr/share/nginx/html;\n internal;}' /etc/nginx/sites-available/default
-# start server
-service nginx start
+# Redirect to fabulous Rick Astley page
+sed -i '/listen \[::\]:80 default_server;/a\        rewrite ^\/redirect_me https://www.youtube.com/watch?v=dQw4w9WgXcQ permanent;' /etc/nginx/sites-available/default
+
+# 404 Page not Found
+echo "Ceci n'est pas une page" >/var/www/html/404.html
+sed -i '/dQw4w9WgXcQ permanent;$/a\        error_page 404 /404.html;' /etc/nginx/sites-available/default
+
+service nginx restart
