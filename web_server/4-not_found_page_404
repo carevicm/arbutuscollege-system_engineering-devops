@@ -10,7 +10,10 @@ echo "Holberton School" | sudo tee /var/www/html/index.nginx-debian.html >/dev/n
 # Redirect to fabulous Rick Astley page
 sudo sed -i '/listen \[::\]:80 default_server;/a\        rewrite ^\/redirect_me(.*)$ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
 
-echo "Ceci n'est pas une page" > /usr/share/nginx/html/custom_404.html
-sed -i '/listen 80 default_server/a rewrite ^/redirect_me https://juanfe9118.github.io/Bass-Love/ permanent;' /etc/nginx/sites-available/default
-sed -i '/listen 80 default_server/a error_page 404 /custom_404.html; location = /custom_404.html {root /usr/share/nginx/html;\n internal;}' /etc/nginx/sites-available/default
+touch /var/www/html/404.html
+echo -e "Ceci n'est pas une page" > /var/www/html/404.html
+
+sed -i "s,root \/var\/www\/html;,$errorpage," /etc/nginx/sites-enabled/default
+errorpage="root /var/www/html;\n\n\terror_page 404 /404.html;\n\n"
+service nginx reload
 service nginx restart
