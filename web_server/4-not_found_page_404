@@ -11,7 +11,7 @@ echo "Holberton School" >/var/www/html/index.nginx-debian.html
 sed -i '/listen \[::\]:80 default_server;/a\        rewrite ^\/redirect_me https://www.youtube.com/watch?v=dQw4w9WgXcQ permanent;' /etc/nginx/sites-available/default
 
 # 404 Page not Found
-echo "Ceci n'est pas une page" >/var/www/html/custom_404.html
+sudo echo "Ceci n'est pas une page" | sudo tee /usr/share/nginx/html/custom_404.html
 sed -i '/listen 80 default_server/a error_page 404 /custom_404.html; location = /custom_404.html {root /usr/share/nginx/html;\n internal;}' /etc/nginx/sites-available/default
-
-service nginx restart
+# start server
+service nginx start
