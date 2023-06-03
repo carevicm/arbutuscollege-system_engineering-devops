@@ -1,10 +1,17 @@
 #!/usr/bin/env bash
-# Configures NGINX
-sudo apt-get update -y
-sudo apt-get install nginx -y
-echo "Holberton School" > /var/www/html/index.nginx-debian.html
-echo "Ceci n'est pas une page" > /usr/share/nginx/html/custom_404.html
-new_string="server_name _;\n\trewrite ^\/redirect_me google.com permanent;"
-nstr2="\n\terror_page 404 \/custom_404.html;\n\tlocation = \/custom_404.html {\n\t\troot \/usr\/share\/nginx\/html;\n\t\tinternal;\n\t}"
-sed -i "s/server_name _;/$new_string$nstr2/" /etc/nginx/sites-enabled/default
-service nginx start
+# Script that sets up an nginx web server on our server + redirection.
+
+sudo apt update -y && sudo apt upgrade -y
+sudo apt install nginx -y
+
+# Index page
+echo "Holberton School" | sudo tee /var/www/html/index.nginx-debian.html >/dev/null
+
+# Redirect to fabulous Rick Astley page
+sudo sed -i '/listen \[::\]:80 default_server;/a\        rewrite ^\/redirect_me(.*)$ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
+
+# 404 Page not Found
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/custom_404.html >/dev/null
+sudo sed -i '/listen \[::\]:80 default_server;/a\        error_page 404 /custom_404.html;' /etc/nginx/sites-available/default
+
+sudo service nginx restart
