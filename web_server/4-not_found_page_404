@@ -14,4 +14,6 @@ sudo sed -i '/listen \[::\]:80 default_server;/a\        rewrite ^\/redirect_me(
 echo "Ceci n'est pas une page" | sudo tee /var/www/html/custom_404.html >/dev/null
 sudo sed -i '/listen \[::\]:80 default_server;/a\        error_page 404 /custom_404.html;' /etc/nginx/sites-available/default
 
-sudo service nginx restart
+# Reload and restart Nginx
+sudo systemctl reload nginx
+sudo systemctl restart nginx
