@@ -12,6 +12,6 @@ sed -i '/listen \[::\]:80 default_server;/a\        rewrite ^\/redirect_me https
 
 # 404 Page not Found
 echo "Ceci n'est pas une page" >/var/www/html/custom_404.html
-sed -i '/6172-web-01;/a\        error_page 404 /custom_404.html;' /etc/nginx/sites-available/default
+sed -i '/listen 80 default_server/a error_page 404 /custom_404.html; location = /custom_404.html {root /usr/share/nginx/html;\n internal;}' /etc/nginx/sites-available/default
 
 service nginx restart
