@@ -17,3 +17,11 @@ sudo sed -i '/listen \[::\]:80 default_server;/a\        error_page 404 /custom_
 # Reload and restart Nginx
 sudo systemctl reload nginx
 sudo systemctl restart nginx
+
+# Verify custom 404 page
+response=$(curl -sI localhost/xyz)
+if [[ $response == *"404"* ]]; then
+    echo "Custom 404 page returns 404 code"
+else
+    echo "Custom 404 page does not return 404 code"
+fi
