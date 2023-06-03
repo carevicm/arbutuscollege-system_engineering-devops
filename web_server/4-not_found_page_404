@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
-# Script that setup a nginx web server on our server + redirection + 404.
+# Script that sets up an nginx web server on our server + redirection.
 
-apt update -y && apt upgrade -y
-apt install nginx -y
+sudo apt update -y && sudo apt upgrade -y
+sudo apt install nginx -y
 
 # Index page
-echo "Holberton School" >/var/www/html/index.nginx-debian.html
+echo "Holberton School" | sudo tee /var/www/html/index.nginx-debian.html >/dev/null
 
 # Redirect to fabulous Rick Astley page
-sed -i '/listen \[::\]:80 default_server;/a\        rewrite ^\/redirect_me https://www.youtube.com/watch?v=dQw4w9WgXcQ permanent;' /etc/nginx/sites-available/default
+sudo sed -i '/listen \[::\]:80 default_server;/a\        rewrite ^\/redirect_me(.*)$ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
 
-# 404 Page not Found
-echo "Ceci n'est pas une page" >/var/www/html/404.html
-sed -i '/dQw4w9WgXcQ permanent;$/a\        error_page 404 /404.html;' /etc/nginx/sites-available/default
-
-service nginx restart
+sudo sed -i "s/server_name _;/$command/" /etc/nginx/sites-available/default
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/custom_404.html
+error="server_name _;\n\terror_page 404 \/custom_404.html;\nlocation = \/custom_404.html {\n\troot \/var\/www\/html;\n\tinternal;\n\t}"
+sudo sed -i "s/server_name _;/$error/" /etc/nginx/sites-available/default
+sudo service nginx restart
