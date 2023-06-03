@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Script that sets up an nginx web server on our server + redirection + 404.
+# Script that setup a nginx web server on our server + redirection + 404.
 
 apt update -y && apt upgrade -y
 apt install nginx -y
@@ -12,6 +12,6 @@ sed -i '/listen \[::\]:80 default_server;/a\        rewrite ^\/redirect_me https
 
 # 404 Page not Found
 echo "Ceci n'est pas une page" >/var/www/html/custom_404.html
-sudo sed -i '/6172-web-01;/a\        error_page 404 /custom_404.html;' /etc/nginx/sites-available/default
+sudo sed -i '/dQw4w9WgXcQ permanent;$/a\        error_page 404 /custom_404.html;' /etc/nginx/sites-available/default
 
 service nginx restart
