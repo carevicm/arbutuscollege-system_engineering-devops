@@ -5,9 +5,11 @@ sudo apt update -y && sudo apt upgrade -y
 sudo apt install nginx -y
 
 # Index page
-echo "Holberton School" >/var/www/html/index.nginx-debian.html
+echo "Holberton School" | sudo tee /var/www/html/index.nginx-debian.html >/dev/null
 
 # Configure custom 404 page
-echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html >/dev/null
-sudo sed -i 's/# server_tokens off;/server_tokens off;\n\n        error_page 404 /404.html;/g' /etc/nginx/nginx.conf
+sudo mkdir /var/www/html/errors
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/errors/404.html >/dev/null
+sudo sed -i 's|#error_page 404 /404.html;|error_page 404 /errors/404.html;|' /etc/nginx/sites-available/default
+sudo sed -i 's|root /var/www/html;|root /var/www/html/errors;|' /etc/nginx/sites-available/default
 sudo service nginx restart
