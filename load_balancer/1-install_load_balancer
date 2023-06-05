@@ -11,8 +11,8 @@ frontend main
 
 backend web-server
 	balance roundrobin
-	server 1206-web-01 15.237.58.224 check
-	server 1206-web-02 15.188.33.70 check
+	server 6172-web-01 15.237.58.224 check
+	server 6172-web-02 13.37.248.192 check
 "
 
 echo "$CONF" >> /etc/haproxy/haproxy.cfg
