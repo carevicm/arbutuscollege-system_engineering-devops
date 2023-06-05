@@ -15,7 +15,8 @@ curl https://pastebin.com/raw/szLjiB9Q >/var/www/html/custom_404.html
 sudo sed -i '/listen \[::\]:80 default_server;/a\        error_page 404 /custom_404.html;' /etc/nginx/sites-available/default
 
 # Served header
-sed -i "/404 \/custom_404.html;$/a\        add_header X-Served-By \$hostname;" /etc/nginx/sites-available/default
+sed -i "/404 \/custom_404.html;$/a\        add_header X-Served-By \$hostname always;" /etc/nginx/sites-available/default
+
 
 
 service nginx restart 
