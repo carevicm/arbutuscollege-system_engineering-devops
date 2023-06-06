@@ -7,7 +7,6 @@ apt install haproxy -y
 echo "ENABLED=1" >>/etc/default/haproxy
 
 haproxy_cfg="\nbackend web-backend\n\tbalance roundrobin\n\tserver 6172-web-01 15.237.58.224:80 check\n\tserver 6172-web-02 13.37.248.192:80 check\n\nfrontend http\n\tbind *:80\n\tmode http\n\tdefault_backend web-backend"
-haproxy_cfg="\nbackend web-backend\n\tbalance roundrobin\n\tserver 6171-web-01 13.37.232.122:80 check\n\tserver 6171-web-02 15.237.58.178:80 check\n\nfrontend http\n\tbind *:80\n\tmode http\n\tdefault_backend web-backend"
 echo -e "$haproxy_cfg" >>/etc/haproxy/haproxy.cfg
 
 service haproxy restart
