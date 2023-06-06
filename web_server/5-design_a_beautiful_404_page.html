@@ -1,25 +1,17 @@
-<section class="page_404">
-	<div class="container">
-		<div class="row">	
-		<div class="col-sm-12 ">
-		<div class="col-sm-10 col-sm-offset-1  text-center">
-		<div class="four_zero_four_bg">
-			<h1 class="text-center ">404  Ceci n'est pas une page</h1>
-		
-		
-		</div>
-		
-		<div class="contant_box_404">
-		<h3 class="h2">
-		Look like you're lost
-		</h3>
-		
-		<p>Ceci n'est pas une page</p>
-		
-		<a href="" class="link_404">Go to Home</a>
-	</div>
-		</div>
-		</div>
-		</div>
-	</div>
-</section>
+#!/usr/bin/env bash
+# Script that setup a nginx web server on our server + redirection + 404.
+
+apt update -y && apt upgrade -y
+apt install nginx -y
+
+# Index page
+echo "Holberton School" >/var/www/html/index.nginx-debian.html
+
+# Redirect to fabulous Rick Astley page
+sed -i '/listen \[::\]:80 default_server;/a\        rewrite ^\/redirect_me https://www.youtube.com/watch?v=dQw4w9WgXcQ permanent;' /etc/nginx/sites-available/default
+
+# 404 Page not Found
+curl https://pastebin.com/raw/szLjiB9Q >/var/www/html/404.html
+sed -i '/dQw4w9WgXcQ permanent;$/a\        error_page 404 /404.html;' /etc/nginx/sites-available/default
+
+service nginx restart
