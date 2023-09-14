@@ -1,5 +1,10 @@
-README
-
+Project badge
+100%
+Load balancer
+ Amateur
+ By: Sylvain Kalache
+ Weight: 1
+ Your score will be updated as you progress.
 Concepts
 For this project, we expect you to look at these concepts:
 
@@ -35,11 +40,12 @@ The second line of all your Bash scripts should be a comment explaining what is 
 Your servers
 Name	Username	IP	State	
 6172-web-01	ubuntu	15.237.58.224	running	
-6172-web-02	ubuntu	13.38.108.252	pending	
-6172-lb-01	ubuntu	35.180.50.233	pending	
+6172-web-02	ubuntu	13.37.248.192	running	
+6172-lb-01	ubuntu	15.236.145.16	running	
 Tasks
 0. Double the number of webservers
 mandatory
+Score: 100.00% (Checks completed: 100.00%)
 In this first task you need to configure web-02 to be identical to web-01. Fortunately, you built a Bash script during your web server project, and they’ll now come in handy to easily configure web-02. Remember, always try to automate your work!
 
 Since we’re placing our web servers behind a load balancer for this project, we want to add a custom Nginx response header. The goal here is to be able to track which web server is answering our HTTP requests, to understand and track the way a load balancer works. More in the coming tasks.
@@ -65,10 +71,11 @@ Repo:
 GitHub repository: arbutuscollege-system_engineering-devops
 Directory: load_balancer
 File: 0-custom_http_response_header
-  
-0/3 pts
+   
+3/3 pts
 1. Install your load balancer
 mandatory
+Score: 100.00% (Checks completed: 100.00%)
 Install and configure HAproxy on your lb-01 server.
 
 Requirements:
